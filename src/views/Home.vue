@@ -1,311 +1,252 @@
 <template>
  
    <!-- <v-slide-y-transition mode="out-in">-->
-     <div class="home black" ref="home">
-       
-       
-     <v-container fluid class="black primary--text text--darken-3 bimage">
-      
-         <div v-if="$vuetify.breakpoint.mdAndUp" style=" max-width:1200px; margin:80px auto;">
-            <v-layout row wrap align-center>
-       <v-flex md5 offset-md3 >
-       
-<div class="main-heading" >Full Stack Web Developer</div> 
-<h2 style="max-width:450px" class="pink--text">Specialising in Vue.js, Vuetify, Single page applications, API driven development, Firebase, Node.js and  Ruby on Rails. </h2>
+    <div class="home" ref="home">
+        <v-app id="home">
 
-</v-flex>
- <v-flex md3 class="text-md-left text-xs-center"><img src="@/assets/profilepic.jpg" style="height:160px;border-radius:80px">
-</v-flex>
-<v-flex md5 offset-md3><v-btn outline lrg color="pink darken-2" href='https://github.com/project-orcon'>See my github</v-btn></v-flex>
-</v-layout>
-         </div>
-         <div v-else>
-            <v-layout row wrap align-center>
-           <v-flex xs12 class="text-xs-center my-3"><img src="@/assets/profilepic.jpg" style="height:100px;border-radius:50px;">
-</v-flex>
-             <v-flex xs12>
-       
-<div class="headline text-xs-center">Full Stack Web Developer</div> 
-<div class="subheading pink--text" text-xs-center style="width:280px;margin:0 auto; padding:10px;">Specialising in Vue.js, Vuetify, Single page applications, API driven development, Firebase, Node.js and  Ruby on Rails. </div>
-<div class="text-xs-center"><v-btn outline lrg color="pink darken-2" href='https://github.com/project-orcon'>See my github</v-btn></div>
-</v-flex>
-  </v-layout>
-           </div>
-      
-     </v-container>
-<v-snackbar v-model="on">EVENT REGISTERED</v-snackbar>
+            <v-container fluid class="blue-grey lighten-4 primary--text text--darken-3  bimage">
 
-<v-touch @swipeleft="increasePageIndex()" @swiperight="decreasePageIndex()">
-  <div style="position:relative;height:100vh; width:100vw;max-width:100vw;  overflow: hidden;">
-  <transition :name="transition">
-    
-<page :option="page.option" :link="page.link" :colour="page.colour" :heading="page.heading" :image="page.image" :skills="page.skills" :description="page.description" :total="pages.length" :index="index" :key=index v-for="(page,index) in pages" v-if="pageIndex == index" @increase="increasePageIndex()" @decrease="decreasePageIndex()" ></page>
- </transition> 
- </div>
- </v-touch>
-<v-container fluid style="padding:0">
-  
-<v-flex xs12 class="white--text pink py-2 px-1">
-          <v-layout row >
-          <v-flex xs6 text-xs-left><v-icon large color="white" :disabled="pageIndex == 0" @click="decreasePageIndex()">keyboard_arrow_left</v-icon></v-flex><v-flex xs6 text-xs-right><v-icon large color="white" :disabled="pageIndex == pages.length -1" @click="increasePageIndex()">keyboard_arrow_right</v-icon></v-flex>
-          </v-layout>
-     </v-flex>
-</v-container>
-</div>
-    
+
+                <v-layout row wrap align-center>
+                    <v-flex xs12 class="text-xs-center my-3">
+                        <img src="/assets/kimpic.jpg" style="height:140px;border-radius:70px;position:relative;top:65px;z-index:1;">
+                    </v-flex>
+                    <v-flex xs12  md8 offset-md2 lg6 offset-lg3 class="text-xs-center mb-5 ">
+                        <v-card class="pb-2">
+                            <div class="display-1 text-xs-center deep-orange white--text font-weight-thin pb-3" style="padding-top:50px;"><div class="title font-weight-light my-2">Kim Bedson</div>Full Stack Web Developer</div>
+                            <div class="subheading deep-orange--text pa-3" text-xs-center>Specialising in Vue.js, Vuetify, Single page applications, API driven development, Firebase, Node.js and  Ruby on Rails. </div>
+                           <v-btn outline lrg color="deep-orange darken-2 mb-2" href='https://github.com/project-orcon'>See my github</v-btn>
+                        </v-card>
+                    </v-flex>
+                    <v-flex md8 offset-md2 lg6 offset-lg3   class="text-xs-center">
+                        <div class="mt-5"><v-btn class="headline font-weight-normal black white--text mb-4"> {{title}}</v-btn></div>
+                        <span v-for="item in pages">
+                            <img :src="'/assets/'+item.image" width="300"  @click="page=item;dialog=true" @mouseover="title=item.heading" @mouseleave="title='WEBSITES'" />
+
+                        </span>
+                    </v-flex>
+                    <v-flex xs12  md8 offset-md2 lg6 offset-lg3 class="text-xs-center" style="margin-bottom:300px;">
+                        <div class="mt-5 text-xs-center">
+                            <v-btn class="headline font-weight-normal black white--text mb-1 mt-5">{{skillsTitle}} </v-btn>
+                            <div class="body-2 black--text text-uppercase font-weight-bold" style="min-height:35px;max-height:35px;">{{displaySkill}}</div>
+                            <div style="margin:0 auto" class="mb-5 ">
+                                <!-- dont display the hover websites list for each skill effect if in mobile view-->
+                                <v-chip label color="deep-orange" v-if="$vuetify.breakpoint.mdAndUp"class="white--text" v-for="(skill,index) in skillsList" @mouseover="displaySkill=siteArrayToString(skillsSites[index]);skillsTitle=skill" @mouseleave="displaySkill='';skillsTitle='SKILLS'">{{skill}}</v-chip>
+                                <v-chip label color="deep-orange" v-if="$vuetify.breakpoint.smAndDown" class="white--text" v-for="(skill,index) in skillsList">{{skill}}</v-chip>
+                            </div>
+                            <v-btn class="headline font-weight-normal black white--text  mb-3 mt-5">CERTIFICATIONS </v-btn><br />
+                            <v-card flat color="deep-orange" class="white--text my-4 pa-2" href="https://www.youracclaim.com/badges/06685690-917d-4f7b-a80d-266a970c1900/linked_in_profile">
+                                Microsoft C# Specialist | Passed Exam 483: Programming in C#
+                            </v-card>
+                            
+                        </div>
+                      
+                    </v-flex>
+                </v-layout>
+
+            </v-container>
+
+            <v-layout row justify-center>
+                <v-dialog v-model="dialog" fullscreen hide-overlay  transition="dialog-bottom-transition">
+                    <v-card >
+                        <page :option="page.option" :link="page.link" :colour="page.colour" :heading="page.heading" :image="page.image" :skills="page.skills" :description="page.description" :total="pages.length" :index="index" :key=index v-if="page" @close="page=null;dialog=false"></page>
+                    </v-card>
+                </v-dialog>
+            </v-layout>
+          
+        </v-app>
+   
+    </div>
 
 </template>
 
 <script>
 import Page from '@/components/Page.vue'
-export default {
-  name: 'Home',
-  components: {
-    Page
-  },
- data() {
-   return { 
-     on:false,
-     moveRight:false,
-     pageIndex:0,
-     currentHeight:0,
-     height:0,
-     status:"none",
-     scrolling:false,
-     pages: [
-       {
-       option:"HEADING",
-       colour:"black",
-       heading:"PROJECTS"
-     },
-       {
-      option:"DEFAULT",
-       colour:"primary darken-4",
-       link:"https://app.hireabuddy.co",
-       heading: "Hire a Buddy",
-       image: "buddy1.png",
-       description: `I was tasked with developing a SPA front end for Hire a Buddy which had an existing node.js api backend.
+    export default {
+        name: 'Home',
+        components: {
+            Page
+        },
+        mounted() {
+
+           //get websites array for each skill, from pages object
+
+            this.skillsList = this.pages.map(x => x.skills).reduce((a, b) => a.concat(b), [])
+            this.skillsList = this.skillsList.filter((item, index) => { return this.skillsList.indexOf(item) >= index });
+            var temp= this.skillsList.map(y => this.pages.map(x => {
+                if (x.skills.includes(y)) return x.heading; 
+            }))
+            temp = temp.map(x => x.filter(y => y != null))
+            this.skillsSites = temp
+
+        },
+        data() {
+            return {
+                skillsTitle:"SKILLS",
+                displaySkill:"",
+                skillsSites: null,
+                skillsList: [],
+                dialog:false,
+                page: {},
+                title:'WEBSITES',
+                on: false,
+                moveRight: false,
+                pageIndex: 0,
+                currentHeight: 0,
+                height: 0,
+                status: "none",
+                scrolling: false,
+                pages: [
+                   
+                    {
+                        option: "DEFAULT",
+                        colour: "primary darken-4",
+                        link: "https://app.hireabuddy.co",
+                        heading: "Hire a Buddy",
+                        image: "buddy1.png",
+                        description: `I was tasked with developing a SPA front end for Hire a Buddy which had an existing node.js api backend.
        The front end allows users to authenticate via Facebook, update their personal details (including uploading photos),
        real time search for buddies (implemented via websockets), view profiles, add credit card and account details, and 
        book or be hired as a buddy. Users can also message other users (this was implemented via firebase db), and new message notifications
        were pushed to users through firebase messaging).`,
 
-     skills: [
-       "Vue.js",
-       "Vuetify",
-       "Facebook authentication",
-       "Single page application",
-       "Web sockets",
-       "Firebase db",
-       "Firebase messaging",
-       "Stripe"
-     ]
-     },{
-       option:"DEFAULT",
-       colour:"purple darken-4",
-       link:"https://tfs-stage.what2drive.com.au",
-     heading: "Car loan calculator",
-       image: "carloan.png",
-       description: `I was tasked with developing a car loan interest rate calculator module that could be included as an iframe into
+                        skills: [
+                            "Vue.js",
+                            "Vuetify",
+                            "Facebook authentication",
+                            "Single page application",
+                            "Web sockets",
+                            "Firebase db",
+                            "Firebase messaging",
+                            "Stripe"
+                        ]
+                    }, {
+                        option: "DEFAULT",
+                        colour: "purple darken-4",
+                        link: "https://tfs-stage.what2drive.com.au",
+                        heading: "Car loan calculator",
+                        image: "carloan.png",
+                        description: `I was tasked with developing a car loan interest rate calculator module that could be included as an iframe into
        multiple webpages for the client. I was provided with a UI mockup which I developed into the front end using Vue and Vuetify. I 
        built a simple Node.js api for the backend.<br>The backend had to be able to read the interest rate variables via google sheets, 
        send emails to the client and user (via Sendgrid) and write enquiry details to an output google sheet.
         The front end used excel style functions to generate the comparison rate and weekly payments.`,
-     skills: [
-       "Vue.js",
-       "Vuetify",
-       "HTML",
-       "CSS",
-       "Node.js",
-       "Google sheets",
-       "Send Grid"
-     ]
-     },
-     {
-       option:"DEFAULT",
-       colour:"yellow darken-3",
-     heading: "Jade Monkey Travel Co",
-     link:" http://www.jademonkey.com.au",
-       image: "jademonkey.png",
-       description: `A simple one page site was built in order to test market demand for jademonkey.com.au.
+                        skills: [
+                            "Vue.js",
+                            "Vuetify",
+                            "HTML",
+                            "CSS",
+                            "Node.js",
+                            "Google sheets",
+                            "Send Grid"
+                        ]
+                    },
+                    {
+                        option: "DEFAULT",
+                        colour: "yellow darken-3",
+                        heading: "Jade Monkey Travel Co",
+                        link: " http://www.jademonkey.com.au",
+                        image: "jademonkey.png",
+                        description: `A simple one page site was built in order to test market demand for jademonkey.com.au.
        The site was built using Vue and Vuetify giving it a clean minimalistic style.` ,
-     skills: [
-       "Vue.js",
-       "Vuetify",
-       "HTML",
-       "CSS"
-     ]
-     },
-     {
-       option:"DEFAULT",
-       colour:"purple darken-4",
-     heading: "Preter Audio",
-       image: "preteraudio.png",
-      link: "https://www.preteraudio.com",
-       description: `Preter Audio is a startup that converts audio into surround sound delivered from stereo speakers. 
+                        skills: [
+                            "Vue.js",
+                            "Vuetify",
+                            "HTML",
+                            "CSS"
+                        ]
+                    },
+                    {
+                        option: "DEFAULT",
+                        colour: "purple darken-4",
+                        heading: "Preter Audio",
+                        image: "preteraudio.png",
+                        link: "https://www.preteraudio.com",
+                        description: `Preter Audio is a startup that converts audio into surround sound delivered from stereo speakers. 
        I was tasked with automating the audio conversion process, and building an MVP site where users could sign up, upload tracks,
         have them converted and purchase the converted tracks.<br> In order to perform the conversion I had to automate several command line and 
        GUI programs using applescript and interface this with a Ruby on Rails backend which stored the converted tracks. I was also
        responsible for setting up and configuring an NGINX server to host the website.`,
-     skills: [
-       "Bootstrap",
-       "HTML",
-       "CSS",
-       "Javascript",
-       "Applescript",
-       "Ruby on Rails",
-       "PostgreSQL",
-       "Stripe",
-       "NGINX",
-     ]
-     },
-      {
-       option:"DEFAULT",
-       colour:"pink darken-3",
-     heading: "Bimblebook",
-       image: "bimblebook.png",
-       link: "https://www.bimblebook.com",
-       description: `Bimblebook is a book sharing website that allows people to borrow books from people living nearby.
+                        skills: [
+                            "Bootstrap",
+                            "HTML",
+                            "CSS",
+                            "Javascript",
+                            "Applescript",
+                            "Ruby on Rails",
+                            "PostgreSQL",
+                            "Stripe",
+                            "NGINX",
+                        ]
+                    },
+                    {
+                        option: "DEFAULT",
+                        colour: "pink darken-3",
+                        heading: "Bimblebook",
+                        image: "bimblebook.png",
+                        link: "https://www.bimblebook.com",
+                        description: `Bimblebook is a book sharing website that allows people to borrow books from people living nearby.
        The front end was developed using Bootstrap and Javascript while the backend was developed using ASP.NET MVC.
        <br>Users can search for and borrow books from their neighbours while the application
        takes care of sending 'new request','request approval/declined' and 'return books' email notifications. `,
-     skills: [
-       "Bootstrap",
-       "Javascript",
-       "ASP.NET MVC",
-       "SQLITE",
-       "Send Grid",
-       "Google Books"
-     ]
-     },
-     {
-       option:"DEFAULT",
-       colour:"green darken-1",
-     heading: "Australian Property Guides",
-       image: "ausprop.png",
-       description: `Australian Property Guides is a property listings website that was built using Ruby on Rails. 
+                        skills: [
+                            "Bootstrap",
+                            "Javascript",
+                            "ASP.NET MVC",
+                            "SQLITE",
+                            "Send Grid",
+                            "Google Books"
+                        ]
+                    },
+                    {
+                        option: "DEFAULT",
+                        colour: "green darken-1",
+                        heading: "Australian Property Guides",
+                        image: "ausprop.png",
+                        description: `Australian Property Guides is a property listings website that was built using Ruby on Rails. 
        The client was able to upload and edit new properties via an admin section of the website,
         and site users could search for properties which matched criteria such as number of rooms, price and location.<br>
        Users could also fill out a contact form to contact the client about properties they were interested in.`,
-     skills: [
-       "Bootstrap",
-       "Javascript",
-       "Ruby on Rails",
-       "PostgreSQL",
-       "SendGrid"
-     ]
-     },
-      {
-       option:"DEFAULT",
-       colour:"primary darken-3",
-     heading: "My Care Today",
-       image: "mycaretoday.png",
-       description: `My Care Today was a web app that enabled elderly people to easily get in contact with their case workers and carers.
+                        skills: [
+                            "Bootstrap",
+                            "Javascript",
+                            "Ruby on Rails",
+                            "PostgreSQL",
+                            "SendGrid"
+                        ]
+                    },
+                    {
+                        option: "DEFAULT",
+                        colour: "primary darken-3",
+                        heading: "My Care Today",
+                        image: "mycaretoday.png",
+                        description: `My Care Today was a web app that enabled elderly people to easily get in contact with their case workers and carers.
        I was responsible for building the Ruby on Rails backend, and worked with a UX designer, front end developer and project manager
        to build the app.<br> The backend enabled caseworkers to add and manage their clients, and assign carers to the 20 different options
        that the user was able to select from via the app. Options included things like "help with shopping, gardening, medication, transport".
        When a user selected an option the backend would send an email to the appropriate carer.`,
-     skills: [
-       "Bootstrap",
-       "HTML",
-       "CSS",
-       "Ruby on Rails",
-       "PostgreSQL",
-       "SendGrid"
-     ]
-     }]
-  }
- },
- computed: {
-   transition: function() {
-   if (this.moveRight){
-     return "out-right";
-   }
-   else {
-     return "out-left";
-   }
-   }
- },
- methods: {
-   increasePageIndex() {
-     if (this.pageIndex < this.pages.length - 1) {
-this.pageIndex++;
-this.moveRight=false;
-}
-   },
-   decreasePageIndex(){
-     if (this.pageIndex >= 1) {
-this.pageIndex--;
-this.moveRight=true;
-}
-   },
-   wheelDebounced: _.debounce( function(event) {
-    
-  //console.log("in debounce function")
-  //checks if  at bottom of page. if so use wheel to flip through slides. 
-if ((window.innerHeight + window.pageYOffset) >= this.$refs.home.offsetHeight) {
+                        skills: [
+                            "Bootstrap",
+                            "HTML",
+                            "CSS",
+                            "Ruby on Rails",
+                            "PostgreSQL",
+                            "SendGrid"
+                        ]
+                    }]
+            }
+            
+        },
+        
+        methods: {
+            siteArrayToString(arr) {
 
-if (event.deltaY < 0) {
-//console.log('scrolling up');
-this.moveRight=true;
-this.decreasePageIndex();
-}
-if (event.deltaY > 0) {
-//console.log('scrolling down');
-this.moveRight=false;
-this.increasePageIndex();
-}
-}
-//not at bottom of page, use wheel to scroll up or down to top or bottom of page
-else {
-  //console.log("in else statement")
-  if (event.deltaY < 0) {
-     this.$vuetify.goTo(0,{}); 
-    
-  }
-  else {
-   this.$vuetify.goTo(this.$refs.home.offsetHeight,{});
-  }
-}    
-   },100),
-    handleScroll (event) {
-      // Any code to be executed
-      // when the window is scrolled
-      //font scroll if pageIndex is not 0;
-      /*
-      if (this.pageIndex != 0){
-     event.preventDefault();
-     event.stopPropagation();
-     return false;
-      }
+                return arr.reduce((a, b) => a + b + ", " , "Used on: ").slice(0, -2);
+            }
+        }
+    }
 
-      this.scrolling=true;
-     this.currentHeight=window.innerHeight + window.pageYOffset;*/
-    },
-    handleWheel: function(event){
-      //check if at bottom of page
-        if (this.pageIndex != 0){
-    event.preventDefault();
-}
-this.wheelDebounced(event);
- }
- },
   
-   created () {
-     
-     window.addEventListener('wheel', this.handleWheel);
-
-
-    //window.addEventListener('scroll', this.handleScroll);
-  },
-  mounted() {
-this.height=this.$refs.home.offsetHeight;
-  },
-  destroyed () {
-    window.removeEventListener('scroll', this.handleScroll);
-    window.removeEventListener('wheel', this.handleWheel);
-  }
-}
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
@@ -380,11 +321,12 @@ text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px #66FCF1, 0 0 30px #66FCF1, 0 
 
 
 .bimage {
-  background-image: url("../assets/abstract.jpg");
+  background-image: url("/assets/white-background.jpg");
   background-size: cover;
       background-position:center; 
     background-repeat: no-repeat;
-    height:100vh;
+  
+    background-attachment:fixed;
 }
 
 .main-heading {
