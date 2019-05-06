@@ -9,23 +9,23 @@
 
                 <v-layout row wrap align-center>
                     <v-flex xs12 class="text-xs-center my-3">
-                        <img src="/assets/kimpic.jpg" style="height:140px;border-radius:70px;position:relative;top:65px;z-index:1;">
+                        <img src="/assets/kimbw.jpg" style="height:160px;border-radius:80px;position:relative;top:72px;z-index:1;">
                     </v-flex>
-                    <v-flex xs12  md8 offset-md2 lg6 offset-lg3 class="text-xs-center mb-5 ">
+                    <v-flex xs12  md8 offset-md2  xl6 offset-xl3 class="text-xs-center mb-5 ">
                         <v-card class="pb-2">
-                            <div class="display-1 text-xs-center deep-orange white--text font-weight-thin pb-3" style="padding-top:50px;"><div class="title font-weight-light my-2">Kim Bedson</div>Full Stack Web Developer</div>
-                            <div class="subheading deep-orange--text pa-3" text-xs-center>Specialising in Vue.js, Vuetify, Single page applications, API driven development, Firebase, Node.js and  Ruby on Rails. </div>
+                            <div class="display-1 text-xs-center deep-orange white--text font-weight-thin pb-3" style="padding-top:50px;"><div class="title font-weight-light mb-2 mt-3">Kim Bedson</div>Full Stack Web Developer</div>
+                            <div class="subheading deep-orange--text pa-3" text-xs-center>Specialising in Vue.js, Vuetify, Single page applications, API driven development, Node.js, .NET and  Ruby on Rails. </div>
                            <v-btn outline lrg color="deep-orange darken-2 mb-2" href='https://github.com/project-orcon'>See my github</v-btn>
                         </v-card>
                     </v-flex>
-                    <v-flex md8 offset-md2 lg6 offset-lg3   class="text-xs-center">
+                    <v-flex md8 offset-md2 xl6 offset-xl3    class="text-xs-center">
                         <div class="mt-5"><v-btn class="headline font-weight-normal black white--text mb-4"> {{title}}</v-btn></div>
                         <span v-for="item in pages">
-                            <img :src="'/assets/'+item.image" width="300"  @click="page=item;dialog=true" @mouseover="title=item.heading" @mouseleave="title='WEBSITES'" />
+                            <img :src="'/assets/'+item.image" width="300" :title="item.heading" @click="page=item;dialog=true" @mouseover="title=item.heading" @mouseleave="title='WEBSITES'" style="cursor: pointer;" />
 
                         </span>
                     </v-flex>
-                    <v-flex xs12  md8 offset-md2 lg6 offset-lg3 class="text-xs-center" style="margin-bottom:300px;">
+                    <v-flex xs12  md8 offset-md2 xl6 offset-xl3  class="text-xs-center" style="margin-bottom:300px;">
                         <div class="mt-5 text-xs-center">
                             <v-btn class="headline font-weight-normal black white--text mb-1 mt-5">{{skillsTitle}} </v-btn>
                             <div class="body-2 black--text text-uppercase font-weight-bold" style="min-height:35px;max-height:35px;">{{displaySkill}}</div>
@@ -49,7 +49,7 @@
             <v-layout row justify-center>
                 <v-dialog v-model="dialog" fullscreen hide-overlay  transition="dialog-bottom-transition">
                     <v-card >
-                        <page :option="page.option" :link="page.link" :colour="page.colour" :heading="page.heading" :image="page.image" :skills="page.skills" :description="page.description" :total="pages.length" :index="index" :key=index v-if="page" @close="page=null;dialog=false"></page>
+                        <page :images="page.images" :option="page.option" :link="page.link" :colour="page.colour" :heading="page.heading" :image="page.image" :skills="page.skills" :description="page.description" :total="pages.length" :index="index" :key=index v-if="page" @close="page=null;dialog=false"></page>
                     </v-card>
                 </v-dialog>
             </v-layout>
@@ -82,6 +82,7 @@ import Page from '@/components/Page.vue'
         },
         data() {
             return {
+                index:0,
                 skillsTitle:"SKILLS",
                 displaySkill:"",
                 skillsSites: null,
@@ -97,7 +98,24 @@ import Page from '@/components/Page.vue'
                 status: "none",
                 scrolling: false,
                 pages: [
-                   
+                   {
+                        option: "DEFAULT",
+                        colour: "primary darken-4",
+                        link: "https://tynansms.firebaseapp.com",
+                        heading: "SMS Generator",
+                        image: "sms_generator.png",
+                        description: `I was tasked with developing a small application over 2 days that could generate service booking SMS messages for Tynan motors.
+The client would select options such as date/time and the service centre from a form and the app would generate an sms message with shortened links,
+containing an ICS file and a Google Calendar link. <br><br> The backend was a Node.js API that generated the ICS file, text and links for the sms messages. The frontend was
+built using Vue.js and Vuetify`,
+
+                        skills: [
+                            "Vue.js",
+                            "Vuetify",
+                            "Node.js"
+                        ],
+                        images: ["t1c.png","t2c.png"]
+                    },
                     {
                         option: "DEFAULT",
                         colour: "primary darken-4",
@@ -119,7 +137,9 @@ import Page from '@/components/Page.vue'
                             "Firebase db",
                             "Firebase messaging",
                             "Stripe"
-                        ]
+                        ],
+                        images: ["hb1.png","hb2.png","hb3.png","hb4.png"]
+
                     }, {
                         option: "DEFAULT",
                         colour: "purple darken-4",
@@ -128,7 +148,7 @@ import Page from '@/components/Page.vue'
                         image: "carloan.png",
                         description: `I was tasked with developing a car loan interest rate calculator module that could be included as an iframe into
        multiple webpages for the client. I was provided with a UI mockup which I developed into the front end using Vue and Vuetify. I 
-       built a simple Node.js api for the backend.<br>The backend had to be able to read the interest rate variables via google sheets, 
+       built a simple Node.js api for the backend.<br><br>The backend had to be able to read the interest rate variables via google sheets, 
        send emails to the client and user (via Sendgrid) and write enquiry details to an output google sheet.
         The front end used excel style functions to generate the comparison rate and weekly payments.`,
                         skills: [
@@ -139,13 +159,16 @@ import Page from '@/components/Page.vue'
                             "Node.js",
                             "Google sheets",
                             "Send Grid"
+                        ],
+                        images: [
+                            "tm1c.png","tm2c.png"
                         ]
                     },
                     {
                         option: "DEFAULT",
                         colour: "yellow darken-3",
                         heading: "Jade Monkey Travel Co",
-                        link: " http://www.jademonkey.com.au",
+                        
                         image: "jademonkey.png",
                         description: `A simple one page site was built in order to test market demand for jademonkey.com.au.
        The site was built using Vue and Vuetify giving it a clean minimalistic style.` ,
@@ -154,7 +177,8 @@ import Page from '@/components/Page.vue'
                             "Vuetify",
                             "HTML",
                             "CSS"
-                        ]
+                        ],
+                         images: ["jm1c.png","jm2c.png"]
                     },
                     {
                         option: "DEFAULT",
@@ -164,7 +188,7 @@ import Page from '@/components/Page.vue'
                         link: "https://www.preteraudio.com",
                         description: `Preter Audio is a startup that converts audio into surround sound delivered from stereo speakers. 
        I was tasked with automating the audio conversion process, and building an MVP site where users could sign up, upload tracks,
-        have them converted and purchase the converted tracks.<br> In order to perform the conversion I had to automate several command line and 
+        have them converted and purchase the converted tracks.<br><br> In order to perform the conversion I had to automate several command line and 
        GUI programs using applescript and interface this with a Ruby on Rails backend which stored the converted tracks. I was also
        responsible for setting up and configuring an NGINX server to host the website.`,
                         skills: [
@@ -177,17 +201,18 @@ import Page from '@/components/Page.vue'
                             "PostgreSQL",
                             "Stripe",
                             "NGINX",
-                        ]
+                        ],
+                         images: ["pa1c.png","pa2c.png","pa3c.png"]
                     },
                     {
                         option: "DEFAULT",
                         colour: "pink darken-3",
                         heading: "Bimblebook",
                         image: "bimblebook.png",
-                        link: "https://www.bimblebook.com",
+                      
                         description: `Bimblebook is a book sharing website that allows people to borrow books from people living nearby.
        The front end was developed using Bootstrap and Javascript while the backend was developed using ASP.NET MVC.
-       <br>Users can search for and borrow books from their neighbours while the application
+       <br><br>Users can search for and borrow books from their neighbours while the application
        takes care of sending 'new request','request approval/declined' and 'return books' email notifications. `,
                         skills: [
                             "Bootstrap",
@@ -196,7 +221,8 @@ import Page from '@/components/Page.vue'
                             "SQLITE",
                             "Send Grid",
                             "Google Books"
-                        ]
+                        ],
+                        images: ["bb1c.png","bb2c.png","bb3c.png"]
                     },
                     {
                         option: "DEFAULT",
@@ -205,7 +231,7 @@ import Page from '@/components/Page.vue'
                         image: "ausprop.png",
                         description: `Australian Property Guides is a property listings website that was built using Ruby on Rails. 
        The client was able to upload and edit new properties via an admin section of the website,
-        and site users could search for properties which matched criteria such as number of rooms, price and location.<br>
+        and site users could search for properties which matched criteria such as number of rooms, price and location.<br><br>
        Users could also fill out a contact form to contact the client about properties they were interested in.`,
                         skills: [
                             "Bootstrap",
@@ -213,7 +239,9 @@ import Page from '@/components/Page.vue'
                             "Ruby on Rails",
                             "PostgreSQL",
                             "SendGrid"
-                        ]
+                        ],
+                        images: ["ap1c.png","ap2c.png","ap3c.png","ap4c.png"]
+                    
                     },
                     {
                         option: "DEFAULT",
@@ -222,7 +250,7 @@ import Page from '@/components/Page.vue'
                         image: "mycaretoday.png",
                         description: `My Care Today was a web app that enabled elderly people to easily get in contact with their case workers and carers.
        I was responsible for building the Ruby on Rails backend, and worked with a UX designer, front end developer and project manager
-       to build the app.<br> The backend enabled caseworkers to add and manage their clients, and assign carers to the 20 different options
+       to build the app.<br><br> The backend enabled caseworkers to add and manage their clients, and assign carers to the 20 different options
        that the user was able to select from via the app. Options included things like "help with shopping, gardening, medication, transport".
        When a user selected an option the backend would send an email to the appropriate carer.`,
                         skills: [
@@ -232,7 +260,8 @@ import Page from '@/components/Page.vue'
                             "Ruby on Rails",
                             "PostgreSQL",
                             "SendGrid"
-                        ]
+                        ],
+                          images: ["mc1c.png","mc2c.png","mc3c.png","mc4c.png"]
                     }]
             }
             

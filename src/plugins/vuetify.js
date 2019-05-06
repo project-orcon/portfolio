@@ -12,7 +12,8 @@ import {
   VChip,
   VToolbar,
     VCard,
-  VDialog,
+    VDialog,
+  VCarousel,
   transitions
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
@@ -29,7 +30,8 @@ Vue.use(Vuetify, {
     VToolbar,
     VChip,
     VCard,
-        VSnackbar,
+    VSnackbar,
+    VCarousel,
     VDialog,
     transitions
   },

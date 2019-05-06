@@ -5,8 +5,9 @@
     "\\public\\assets",
     "\\src",
     "\\src\\components",
+    "\\src\\plugins",
     "\\src\\views"
   ],
-  "SelectedNode": "\\src",
+  "SelectedNode": "\\public\\assets\\t1c.png",
   "PreviewInSolutionExplorer": false
 }
